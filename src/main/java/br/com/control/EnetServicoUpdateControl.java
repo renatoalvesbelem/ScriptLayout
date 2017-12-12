@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class EnetServicoUpdateControl {
 
-    private static final String path = "C:\\Users\\jose.renato\\Desktop\\ENETSERVICO\\SP\\BKP ENETSERVICOSP.txt";
+    private static final String path = "C:\\Users\\jose.renato\\Desktop\\ENETSERVICO\\SP\\ENETSERVICOSALTERADOSUPDATE.txt";
 
     public static void main(String[] args) throws IOException, BiffException {
         String updateSQL = "update ENETSERVICO set ";
@@ -20,7 +20,7 @@ public class EnetServicoUpdateControl {
         WorkbookSettings ws = new WorkbookSettings();
         ws.setEncoding("Cp1252");
 
-        Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\jose.renato\\Desktop\\ENETSERVICO\\SP\\BKP ENETSERVICOSP.xls"), ws);
+        Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\jose.renato\\Desktop\\ENETSERVICO\\SP\\ENETSERVICOSALTERADOSUPDATE.xls"), ws);
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
 
@@ -36,7 +36,7 @@ public class EnetServicoUpdateControl {
             String NUORDEM = sheet.getCell(9, i).getContents();
             String FLVISIVELMENU = sheet.getCell(12, i).getContents();
 
-            String sql = (updateSQL + "FLFORAUSO ='" + FLFORAUSO + "',CDSERVICOPAI ='" + CDSERVICOPAI + "',DETITULO='" + DETITULO + "',NUORDEM='" + NUORDEM + "',FLVISIVELMENU='" + FLVISIVELMENU + "'" + " WHERE " + "CDSERVICO =" + CDSERVICO + ";");
+            String sql = (updateSQL + "FLFORAUSO ='" + FLFORAUSO + "',CDSERVICOPAI =" + CDSERVICOPAI + ",DETITULO='" + DETITULO + "',NUORDEM=" + NUORDEM + ",FLVISIVELMENU='" + FLVISIVELMENU + "'" + " WHERE " + "CDSERVICO =" + CDSERVICO + "; \nGO \n");
 
             System.out.println(sql);
             writer.write(sql);
