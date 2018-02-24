@@ -13,12 +13,12 @@ import java.io.IOException;
 public class EnetServicoInsertControl {
 
 
-    private static final String path = "C:\\Users\\jose.renato\\Desktop\\ENETSERVICO\\SP\\ENETSERVICOSPHMZ.txt";
+    private static final String path = "D:\\Teste\\TJSC HOMOLOGAÇÃO - ORIGINAL.txt";
     public static void main(String[] args) throws IOException, BiffException {
         String inicioSQL = "insert into ENETSERVICO(CDSERVICO,FLFORAUSO,CDSERVICOPAI,DETITULO,DEURLACESSO,DEURLAJUDA,FLNECESSITAPF,FLNECESSITAOAB,FLNECESSITACERT,NUORDEM,FLINTERMEDIARIO,FLINICIAL,FLVISIVELMENU,FLACESSORAPIDO) values (";
         WorkbookSettings ws = new WorkbookSettings();
         ws.setEncoding("Cp1252");
-        Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\jose.renato\\Desktop\\ENETSERVICO\\SP\\ENETSERVICOSPHMZ.xls"),ws);
+        Workbook workbook = Workbook.getWorkbook(new File("D:\\Teste\\TJSC HOMOLOGAÇÃO - ORIGINAL.xls"),ws);
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
 
@@ -41,8 +41,8 @@ public class EnetServicoInsertControl {
             String FLINICIAL = sheet.getCell(11, i).getContents();
             String FLVISIVELMENU = sheet.getCell(12, i).getContents();
 
-            String sql = (inicioSQL +""+ CDSERVICO + ",'" + FLFORAUSO + "'," + CDSERVICOPAI + ",'" + DETITULO + "','" + DEURLACESSO + "','" + DEURLAJUDA + "','" + FLNECESSITAPF + "','" + FLNECESSITAOAB + "','" + FLNECESSITACERT + "'," + NUORDEM + ",'" + FLINTERMEDIARIO
-                    + "','" + FLINICIAL + "','" + FLVISIVELMENU +"','N');");
+            String sql = (inicioSQL +""+ CDSERVICO + ",'" + FLFORAUSO + "'," + CDSERVICOPAI + ",'" + DETITULO + "','" + DEURLACESSO + "','" + DEURLAJUDA + "','" + "N" + "','" + "N" + "','" + "N" + "'," + NUORDEM + ",'" + "N"
+                    + "','" + "N" + "','" + FLVISIVELMENU +"','N');");
             String teste = new String(sql.getBytes(),"utf-8");
             System.out.println(teste);
             writer.write(teste);
