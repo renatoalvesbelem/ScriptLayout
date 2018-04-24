@@ -9,8 +9,5 @@
         <module name="ScriptLayout" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ScriptLayout" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>
