@@ -11,16 +11,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class EnetServicoInsertControl {
+    private String path;
 
+    public EnetServicoInsertControl(String path) {
+        this.path = path;
+    }
 
-    private static final String path = "C:\\Projetos\\WEB_PRODUTO\\fWEB\\Produto\\Documentos\\Roteiro de Teste\\Configuração ENETSERVICO\\SC\\Planilha\\TRE CORRIGIDO\\INSERT completo-TRE.txt";
-    public static void main(String[] args) throws IOException, BiffException {
-        String inicioSQL = "insert into ENETSERVICO(CDSERVICO,FLFORAUSO,CDSERVICOPAI,DETITULO,FLNECESSITAPF,FLNECESSITAOAB,FLNECESSITACERT,NUORDEM,FLINTERMEDIARIO,FLINICIAL,FLVISIVELMENU,FLACESSORAPIDO) values (";
+    public void geraScript() throws IOException, BiffException {
+        String inicioSQL = "INSERT INTO SAJ.ENETSERVICO(CDSERVICO,FLFORAUSO,CDSERVICOPAI,DETITULO,FLNECESSITAPF,FLNECESSITAOAB,FLNECESSITACERT,NUORDEM,FLINTERMEDIARIO,FLINICIAL,FLVISIVELMENU,FLACESSORAPIDO) VALUES (";
         WorkbookSettings ws = new WorkbookSettings();
         ws.setEncoding("Cp1252");
-        Workbook workbook = Workbook.getWorkbook(new File("C:\\Projetos\\WEB_PRODUTO\\fWEB\\Produto\\Documentos\\Roteiro de Teste\\Configuração ENETSERVICO\\SC\\Planilha\\TRE CORRIGIDO\\INSERT completo-TRE.xls"),ws);
+        Workbook workbook = Workbook.getWorkbook(new File(path), ws);
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.substring(0, path.length() - 3) + "DH4")));
 
         Sheet sheet = workbook.getSheet(0);
         int linhas = sheet.getRows();
@@ -39,10 +42,10 @@ public class EnetServicoInsertControl {
             String FLINICIAL = sheet.getCell(9, i).getContents();
             String FLVISIVELMENU = sheet.getCell(10, i).getContents();
             String FLACESSORAPIDO = sheet.getCell(11, i).getContents();
-            String sql = (inicioSQL +""+ CDSERVICO + ",'" + FLFORAUSO + "'," + CDSERVICOPAI + ",'" + DETITULO + "'"
+            String sql = (inicioSQL + "'" + CDSERVICO + "','" + FLFORAUSO + "'," + CDSERVICOPAI + ",'" + DETITULO + "'"
                     + ",'" + FLNECESSITAPF + "','" + FLNECESSITAOAB + "','" + FLNECESSITACERT + "'," + NUORDEM + ",'" + FLINTERMEDIARIO
-                    + "','" + FLINICIAL + "','" + FLVISIVELMENU +"','"+FLACESSORAPIDO+"');");
-            String teste = new String(sql.getBytes(),"utf-8");
+                    + "','" + FLINICIAL + "','" + FLVISIVELMENU + "','" + FLACESSORAPIDO + "');");
+            String teste = new String(sql.getBytes(), "utf-8");
             System.out.println(teste);
             writer.write(teste);
             writer.newLine();
@@ -51,7 +54,6 @@ public class EnetServicoInsertControl {
         writer.flush();
         writer.close();
     }
-
 
 
 }

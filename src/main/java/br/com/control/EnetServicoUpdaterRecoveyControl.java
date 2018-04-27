@@ -11,18 +11,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class EnetServicoUpdaterRecoveyControl {
-
-    private static final String path = "C:\\Projetos\\WEB_PRODUTO\\fWEB\\Produto\\Documentos\\Roteiro de Teste\\Configuração ENETSERVICO\\SC\\Planilha\\TRE CORRIGIDO\\INSERT completo-TRE- update.txt";
-
-    public static void main(String[] args) throws IOException, BiffException {
-        String updateSQL = "UPDATE ENETSERVICO SET ";
+    private String path;
+    public EnetServicoUpdaterRecoveyControl(String path) {
+        this.path = path;
+    }
+    public void geraScript() throws IOException, BiffException {
+        String updateSQL = "UPDATE SAJ.ENETSERVICO SET ";
 
         WorkbookSettings ws = new WorkbookSettings();
         ws.setEncoding("Cp1252");
 
-        Workbook workbook = Workbook.getWorkbook(new File("C:\\Projetos\\WEB_PRODUTO\\fWEB\\Produto\\Documentos\\Roteiro de Teste\\Configuração ENETSERVICO\\SC\\Planilha\\TRE CORRIGIDO\\INSERT completo-TRE.xls"), ws);
+        Workbook workbook = Workbook.getWorkbook(new File(path), ws);
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.substring(0, path.length() - 4) + " - BKP.DH4")));
 
         Sheet sheet = workbook.getSheet(0);
         int linhas = sheet.getRows();
@@ -43,22 +44,23 @@ public class EnetServicoUpdaterRecoveyControl {
             String FLACESSORAPIDO = sheet.getCell(11, i).getContents();
 
             String sql = (updateSQL + "FLFORAUSO ='" + FLFORAUSO
-                    + "',CDSERVICOPAI =" + CDSERVICOPAI
-                    + ",DETITULO='" + DETITULO
-                    + "',FLNECESSITAPF='" + FLNECESSITAPF
-                    + "',FLNECESSITAOAB='" + FLNECESSITAOAB
-                    + "',FLNECESSITACERT='" + FLNECESSITACERT
-                    + "',NUORDEM=" + NUORDEM
-                    + ",FLINTERMEDIARIO='" + FLINTERMEDIARIO
+                    + "',CDSERVICOPAI ='" + CDSERVICOPAI
+                    + "',DETITULO='" + DETITULO
+//                    + "',FLNECESSITAPF='" + FLNECESSITAPF
+//                    + "',FLNECESSITAOAB='" + FLNECESSITAOAB
+//                    + "',FLNECESSITACERT='" + FLNECESSITACERT
+                    + "',NUORDEM='" + NUORDEM
+                    + "',FLINTERMEDIARIO='" + FLINTERMEDIARIO
                     + "',FLINICIAL='" + FLINICIAL
                     + "',FLVISIVELMENU='" + FLVISIVELMENU
-                    + "',FLACESSORAPIDO='" + FLACESSORAPIDO
-                    + "'" + " WHERE " + "CDSERVICO =" + CDSERVICO + ";");
+//                    + "',FLACESSORAPIDO='" + FLACESSORAPIDO
+                    + "'" + " WHERE " + "CDSERVICO ='" + CDSERVICO + "';");
 
             System.out.println(sql);
             writer.write(sql);
             writer.newLine();
         }
+        writer.write("UPDATE SAJ.ENETSERVICO SET DEITEMMENU = DETITULO;");
         workbook.close();
         writer.flush();
         writer.close();

@@ -1,23 +1,30 @@
 package br.com.view;
 
+import br.com.control.EnetServicoInsertControl;
+import br.com.control.EnetServicoUpdateControl;
+import br.com.control.EnetServicoUpdaterRecoveyControl;
+import jxl.read.biff.BiffException;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 public class Principal {
-    private static JButton btSelecionarArquivoInsertTotal, btSelecionarArquivoUpdateTotal, btSelecionarArquivoUpdateFinal;
-    private static JTextField pathFileInsert, pathFileUpdateTotal, pathFileUpdateFinal;
+    private static JButton btSelecionarArquivoInsertTotal, btCriarScriptInsert, btCriarScriptUpdateBKP, btCriarScriptUpdateFinal;
+    private static JTextField pathFileInsert;
 
     public static void main(String args[]) {
         JFrame jFrame = new JFrame();
-        jFrame.setSize(new Dimension(800, 400));
+        jFrame.setSize(new Dimension(600, 400));
         JPanel jPanel = new JPanel();
-        jPanel.setSize(new Dimension(800, 400));
+        jPanel.setSize(new Dimension(600, 400));
 
         btSelecionarArquivoInsertTotal = new JButton("Selecione");
-        btSelecionarArquivoInsertTotal.setSize(new Dimension(100, 20));
+        btSelecionarArquivoInsertTotal.setSize(new Dimension(100, 30));
         btSelecionarArquivoInsertTotal.setLocation(1, 1);
         btSelecionarArquivoInsertTotal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -31,25 +38,57 @@ public class Principal {
         pathFileInsert.setEditable(false);
         pathFileInsert.setLocation(110, 1);
 
-        pathFileUpdateFinal = new JTextField();
-        pathFileUpdateFinal.setSize(new Dimension(400, 20));
-        pathFileUpdateFinal.setEditable(false);
-        pathFileUpdateFinal.setLocation(110, 50);
-
-        btSelecionarArquivoUpdateFinal = new JButton("Selecione");
-        btSelecionarArquivoUpdateFinal.setSize(new Dimension(100, 20));
-        btSelecionarArquivoUpdateFinal.setLocation(1, 50);
-        btSelecionarArquivoUpdateFinal.addActionListener(new ActionListener() {
+        btCriarScriptInsert = new JButton("Criar Script Insert");
+        btCriarScriptInsert.setSize(new Dimension(150, 30));
+        btCriarScriptInsert.setLocation(1, 50);
+        btCriarScriptInsert.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                atualizaTextField(pathFileUpdateFinal);
+                try {
+                    new EnetServicoInsertControl(pathFileInsert.getText()).geraScript();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (BiffException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        btCriarScriptUpdateBKP = new JButton("Criar Script Update BKP");
+        btCriarScriptUpdateBKP.setSize(new Dimension(180, 30));
+        btCriarScriptUpdateBKP.setLocation(160, 50);
+        btCriarScriptUpdateBKP.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new EnetServicoUpdaterRecoveyControl(pathFileInsert.getText()).geraScript();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (BiffException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+
+        btCriarScriptUpdateFinal = new JButton("Criar Script Update Cliente");
+        btCriarScriptUpdateFinal.setSize(new Dimension(190, 30));
+        btCriarScriptUpdateFinal.setLocation(350, 50);
+        btCriarScriptUpdateFinal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new EnetServicoUpdateControl(pathFileInsert.getText()).geraScript();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (BiffException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
         jPanel.add(pathFileInsert);
-        jPanel.add(pathFileUpdateFinal);
-
+        jPanel.add(btCriarScriptInsert);
+        jPanel.add(btCriarScriptUpdateBKP);
+        jPanel.add(btCriarScriptUpdateFinal);
         jPanel.add(btSelecionarArquivoInsertTotal);
-        jPanel.add(btSelecionarArquivoUpdateFinal);
         jPanel.setLayout(null);
         jFrame.add(jPanel);
         jFrame.show();
@@ -58,9 +97,10 @@ public class Principal {
     }
 
     private static void atualizaTextField(JTextField jTextField) {
-        JFileChooser file = new JFileChooser();
+        JFileChooser file = new JFileChooser(jTextField.getText());
         file.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int i = file.showSaveDialog(null);
+        file.setFileFilter(new FileNameExtensionFilter("*.xls", "xls"));
+        int i = file.showOpenDialog(null);
         if (i == 1) {
             jTextField.setText("");
         } else {
