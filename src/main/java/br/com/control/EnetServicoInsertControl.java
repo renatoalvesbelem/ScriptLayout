@@ -43,13 +43,14 @@ public class EnetServicoInsertControl {
             String FLVISIVELMENU = sheet.getCell(10, i).getContents();
             String FLACESSORAPIDO = sheet.getCell(11, i).getContents();
             String sql = (inicioSQL + "'" + CDSERVICO + "','" + FLFORAUSO + "'," + CDSERVICOPAI + ",'" + DETITULO + "'"
-                    + ",'" + FLNECESSITAPF + "','" + FLNECESSITAOAB + "','" + FLNECESSITACERT + "'," + NUORDEM + ",'" + FLINTERMEDIARIO
+                    + ",'" + FLNECESSITAPF + "','" + FLNECESSITAOAB + "','" + FLNECESSITACERT + "','" + NUORDEM + "','" + FLINTERMEDIARIO
                     + "','" + FLINICIAL + "','" + FLVISIVELMENU + "','" + FLACESSORAPIDO + "');");
             String teste = new String(sql.getBytes(), "utf-8");
             System.out.println(teste);
             writer.write(teste);
             writer.newLine();
         }
+        writer.write("UPDATE SAJ.ENETSERVICO SET DEITEMMENU = DETITULO;");
         workbook.close();
         writer.flush();
         writer.close();
