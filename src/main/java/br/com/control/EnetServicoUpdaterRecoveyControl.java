@@ -26,10 +26,8 @@ public class EnetServicoUpdaterRecoveyControl {
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.substring(0, path.length() - 4) + " - BKP.DH4")));
 
         Sheet sheet = workbook.getSheet(0);
-        int linhas = sheet.getRows();
 
-
-        for (int i = 0; i < linhas; i++) {
+        for (int i = 0; i < sheet.getRows(); i++) {
             String CDSERVICO = sheet.getCell(0, i).getContents();
             String FLFORAUSO = sheet.getCell(1, i).getContents();
             String CDSERVICOPAI = sheet.getCell(2, i).getContents();
